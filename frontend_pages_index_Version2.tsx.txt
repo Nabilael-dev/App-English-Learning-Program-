@@ -1,0 +1,29 @@
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+
+export default function Home() {
+  return (
+    <main className="bg-white dark:bg-gray-900 min-h-screen flex flex-col items-center justify-center p-8">
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-4xl font-bold mb-4 text-center"
+      >
+        English Learning Program
+      </motion.h1>
+      <p className="text-lg mb-6 text-center">
+        Interactive lessons, games, and progress tracking for students, parents, and teachers.
+      </p>
+      <Link href="/login">
+        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition">
+          Join Now
+        </button>
+      </Link>
+      <div className="mt-8 flex space-x-4">
+        <button className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-800">English</button>
+        <button className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-800">Français</button>
+        <button className="px-3 py-1 rounded bg-gray-200 dark:bg-gray-800">Darija</button>
+      </div>
+    </main>
+  );
+}

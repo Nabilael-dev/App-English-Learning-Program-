@@ -1,0 +1,27 @@
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+export default function ProgressCard() {
+  const { query } = useRouter();
+  const { data: progress, error } = useSWR(query.studentId ? `http://localhost:4000/api/progress/${query.studentId}` : null, fetcher);
+
+  if (error) return <div>Error loading progress.</div>;
+  if (!progress) return <div>Loading...</div>;
+
+  return (
+    <main className="p-8">
+      <h2 className="text-2xl font-bold mb-4">Progress Card</h2>
+      {progress.map((week: any, idx: number) => (
+        <div key={idx} className="mb-4 p-4 rounded bg-white dark:bg-gray-800">
+          <h3 className="font-bold">Week {week.week}</h3>
+          <p><strong>Language Focus:</strong> {week.focus}</p>
+          <p><strong>Social Skills:</strong> {week.social}</p>
+          <p><strong>Creative Output:</strong> {week.creative}</p>
+          {week.notes && <p><strong>Notes:</strong> {week.notes}</p>}
+        </div>
+      ))}
+    </main>
+  );
+}

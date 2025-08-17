@@ -1,0 +1,28 @@
+import useSWR from 'swr';
+import Link from 'next/link';
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+export default function Lessons() {
+  const { data: lessons, error } = useSWR('http://localhost:4000/api/lessons', fetcher);
+
+  if (error) return <div>Error loading lessons.</div>;
+  if (!lessons) return <div>Loading...</div>;
+
+  return (
+    <main className="p-8">
+      <h2 className="text-2xl font-bold mb-4">Lessons Library</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {lessons.map((lesson: any) => (
+          <Link key={lesson._id} href={`/lesson/${lesson._id}`}>
+            <div className="bg-white dark:bg-gray-800 p-4 rounded shadow hover:scale-105 transition">
+              <h3 className="font-bold">{lesson.title}</h3>
+              <p>Level: {lesson.level}</p>
+              <p>{lesson.description}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </main>
+  );
+}
